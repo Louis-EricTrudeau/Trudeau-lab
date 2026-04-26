@@ -1,0 +1,434 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RARE VTR ROI ANALYSIS PIPELINE
+% ANALYZES COHORT 2 OF THE PD MOUSE STUDY
+% ADAPTED TO ALSO ANALYZE COHORT 1
+% WRITTEN BY VG 2022
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% WILD TYPE NON INFECTED
+data_path_wt_ni = ['/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/131/recon/RAREVTR_19';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/131/recon/RAREVTR_25';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/270/recon/RAREVTR_25';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/270/recon/RAREVTR_31';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/271/recon/RAREVTR_14';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/271/recon/RAREVTR_21';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/438/recon/RAREVTR_13';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/438/recon/RAREVTR_19';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/449/recon/RAREVTR_15';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/449/recon/RAREVTR_23';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/535/recon/RAREVTR_14';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/535/recon/RAREVTR_22';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/592/recon/RAREVTR_13';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/592/recon/RAREVTR_25';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/593/recon/RAREVTR_10';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/593/recon/RAREVTR_16';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/594/recon/RAREVTR_13';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/594/recon/RAREVTR_19';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/674/recon/RAREVTR_12';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/674/recon/RAREVTR_18';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/676/recon/RAREVTR_13';...
+             '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/WT/676/recon/RAREVTR_18'];
+
+     
+         
+% KNOCKOUT NON INFECTED
+data_path_ko_ni = ['/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/155/recon/RAREVTR_10';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/155/recon/RAREVTR_16';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/156/recon/RAREVTR_13';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/156/recon/RAREVTR_19';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/428/recon/RAREVTR_12';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/428/recon/RAREVTR_18';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/440/recon/RAREVTR_14';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/440/recon/RAREVTR_19';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/453/recon/RAREVTR_10';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/453/recon/RAREVTR_15';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/513/recon/RAREVTR_15';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/513/recon/RAREVTR_21';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/514/recon/RAREVTR_16';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/514/recon/RAREVTR_23';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/519/recon/RAREVTR_10';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/519/recon/RAREVTR_16';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/536/recon/RAREVTR_13';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/536/recon/RAREVTR_19';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/538/recon/RAREVTR_13';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/538/recon/RAREVTR_22';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/542/recon/RAREVTR_13';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/NonInfected/KO/542/recon/RAREVTR_22'];
+% WILD TYPE INFECTED
+data_path_wt_if = ['/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/168/recon/RAREVTR_11';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/168/recon/RAREVTR_18';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/261/recon/RAREVTR_14';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/261/recon/RAREVTR_18';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/276/recon/RAREVTR_10';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/276/recon/RAREVTR_15';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/433/recon/RAREVTR_13';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/433/recon/RAREVTR_19';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/435/recon/RAREVTR_14';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/435/recon/RAREVTR_20';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/442/recon/RAREVTR_12';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/442/recon/RAREVTR_18';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/508/recon/RAREVTR_17';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/508/recon/RAREVTR_26';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/509/recon/RAREVTR_10';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/509/recon/RAREVTR_16';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/543/recon/RAREVTR_12';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/543/recon/RAREVTR_22';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/678/recon/RAREVTR_10';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/678/recon/RAREVTR_17';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/681/recon/RAREVTR_12';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/WT/681/recon/RAREVTR_19'];
+
+% KNOCKOUT INFECTED
+data_path_ko_if = ['/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/263/recon/RAREVTR_16';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/263/recon/RAREVTR_22';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/274/recon/RAREVTR_12';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/274/recon/RAREVTR_17';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/275/recon/RAREVTR_13';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/275/recon/RAREVTR_18';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/444/recon/RAREVTR_12';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/444/recon/RAREVTR_18';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/445/recon/RAREVTR_14';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/445/recon/RAREVTR_22';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/464/recon/RAREVTR_10';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/464/recon/RAREVTR_17';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/544/recon/RAREVTR_12';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/544/recon/RAREVTR_19';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/664/recon/RAREVTR_13';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/664/recon/RAREVTR_20';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/665/recon/RAREVTR_17';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/665/recon/RAREVTR_23';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/677/recon/RAREVTR_10';...
+                   '/data/rudko/vgrouza/invivomouse/pddata/data/Infected/KO/677/recon/RAREVTR_16'];
+
+% set up absolute paths to each RAREVTR scan within each study
+data_path_cohort2 = ['/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/698/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/698/recon/RAREVTR_17';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/702/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/702/recon/RAREVTR_22';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/703/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/703/recon/RAREVTR_18';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/706/recon/RAREVTR_14';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/706/recon/RAREVTR_18';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/707/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/707/recon/RAREVTR_24';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/711/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/711/recon/RAREVTR_21';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/713/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/713/recon/RAREVTR_18';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/725/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/725/recon/RAREVTR_19';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/726/recon/RAREVTR_13';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/726/recon/RAREVTR_17';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/727/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/727/recon/RAREVTR_16';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/729/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/729/recon/RAREVTR_22';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/731/recon/RAREVTR_15';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/731/recon/RAREVTR_21';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/733/recon/RAREVTR_14';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/733/recon/RAREVTR_28';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/734/recon/RAREVTR_14';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/734/recon/RAREVTR_24';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/735/recon/RAREVTR_18';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/735/recon/RAREVTR_23';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/777/recon/RAREVTR_14';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/777/recon/RAREVTR_18';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/778/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/778/recon/RAREVTR_23';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/779/recon/RAREVTR_14';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/779/recon/RAREVTR_24';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/782/recon/RAREVTR_25';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/782/recon/RAREVTR_39';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/784/recon/RAREVTR_16';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/784/recon/RAREVTR_30';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/788/recon/RAREVTR_14';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/788/recon/RAREVTR_19';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/812/recon/RAREVTR_13';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/812/recon/RAREVTR_20';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/817/recon/RAREVTR_13';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/817/recon/RAREVTR_24';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/818/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/818/recon/RAREVTR_21';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/821/recon/RAREVTR_16';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/821/recon/RAREVTR_24';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/825/recon/RAREVTR_15';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/825/recon/RAREVTR_23';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/833/recon/RAREVTR_14';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/833/recon/RAREVTR_18';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/834/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/834/recon/RAREVTR_19';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/838/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/838/recon/RAREVTR_16';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/839/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/839/recon/RAREVTR_22';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/843/recon/RAREVTR_15';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/843/recon/RAREVTR_24';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/845/recon/RAREVTR_12';
+                     '/data/rudko/vgrouza/invivomouse/pddata/data_cohort2/845/recon/RAREVTR_21'];   
+
+data_path_ptx = ['/data/rudko/vgrouza/invivomouse/pddata/data_ptx/477/recon/RAREVTR_15';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/477/recon/RAREVTR_19';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/476/recon/RAREVTR_12';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/476/recon/RAREVTR_16';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/449/recon/RAREVTR_15';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/449/recon/RAREVTR_20';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/175/recon/RAREVTR_14';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/175/recon/RAREVTR_19';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/446/recon/RAREVTR_13';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/446/recon/RAREVTR_17';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/441/recon/RAREVTR_12';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/441/recon/RAREVTR_16';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/439/recon/RAREVTR_15';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/439/recon/RAREVTR_18';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/174/recon/RAREVTR_12';
+                 '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/174/recon/RAREVTR_16'
+                 ];                 
+                 
+                 
+%% Run the analysis       
+
+% add niftitools and EMD toolbox to path
+addpath(genpath('/data/rudko/vgrouza/invivomouse/niftitools'));
+addpath(genpath('/data/rudko/vgrouza/invivomouse/emd-2005-02'));
+
+allSubjectPars = [];
+allSubjectDir = '/data/rudko/vgrouza/invivomouse/pddata/data_ptx/';
+allSubjectFileName = 't1_Cohort0SubjectParsPTX.csv';
+currDataPath = data_path_ptx;
+cohort_num = 0;
+
+for i = 1:2:size(currDataPath, 1)
+% Don't forget to change the cohort!
+    currSubjectPars = struct2table(run_analysis(currDataPath(i,:), currDataPath(i+1,:), cohort_num));
+    allSubjectPars = [allSubjectPars; currSubjectPars];  
+end
+writetable(allSubjectPars, fullfile(allSubjectDir, allSubjectFileName), 'delimiter',',');
+fprintf('Completed Analysis of %d subjects. \n', size(currDataPath, 1)/2);
+                 
+%% MAIN ANALYSIS FUNCTION                
+
+function currSubjectPars = run_analysis(input_path_pre, input_path_post, cohort_number)
+
+    % get subject summary information
+    currSubjectPars = parse_subject_parameters(input_path_pre, cohort_number);
+    currSubjectPars.PathToPre = input_path_pre;                                   
+    currSubjectPars.PathToPost = input_path_post;
+    fprintf('Processing subject %d... \n', currSubjectPars.ID);
+        
+    % get T1 distributions within ROIS pre- and post-ca injection
+    T1HistogramsPre = segment_t1_map(input_path_pre);
+    T1HistogramsPost = segment_t1_map(input_path_post);
+
+        % compute wasserstein/earth mover's distance for each roi                          
+    [~, currSubjectPars.EMDstriatum] = emd(T1HistogramsPre.BinSupport', ...
+                                           T1HistogramsPost.BinSupport', ...
+                                           T1HistogramsPre.Striatum', ...
+                                           T1HistogramsPost.Striatum', ...
+                                           @gdf);          
+
+    [~, currSubjectPars.EMDthalamus] = emd(T1HistogramsPre.BinSupport', ...
+                                           T1HistogramsPost.BinSupport', ...
+                                           T1HistogramsPre.Thalamus', ...
+                                           T1HistogramsPost.Thalamus', ...
+                                           @gdf);   
+
+    [~, currSubjectPars.EMDpssc] = emd(T1HistogramsPre.BinSupport', ...
+                                           T1HistogramsPost.BinSupport', ...
+                                           T1HistogramsPre.PrimarySSC', ...
+                                           T1HistogramsPost.PrimarySSC', ...
+                                           @gdf);   
+
+    [~, currSubjectPars.EMDdg] = emd(T1HistogramsPre.BinSupport', ...
+                                           T1HistogramsPost.BinSupport', ...
+                                           T1HistogramsPre.DentateGyrus', ...
+                                           T1HistogramsPost.DentateGyrus', ...
+                                           @gdf);                                     
+                                       
+    % generate a summary figure
+    generate_figure(currSubjectPars, T1HistogramsPre, T1HistogramsPost);                                       
+                                       
+    % save Pars and Histograms as .csv
+    currSubjectPars = orderfields(currSubjectPars, [1 2 3 4 5 6 10 11 12 13 7 8 9]);
+    fooTable = struct2table(currSubjectPars);
+    writetable(fooTable, fullfile(currSubjectPars.PathToStudy, 't1_SubjectPars.csv'), 'delimiter',',');
+    disp('Done.')
+end
+
+        
+%% SUPPORTING FUNCTIONS        
+function [] = generate_figure(currSubjectPars, T1HistogramsPre, T1HistogramsPost)
+
+    close all;
+    curr_fig = figure(1); 
+    set(gcf, 'Color', 'w', 'Position',[0 0 1200 800]);
+    sgtitle(sprintf('VTR T_1 Summary for Subject %s %d', currSubjectPars.Genotype, currSubjectPars.ID), 'FontWeight', 'b'); 
+
+    subplot(2,2,1); hold on;
+        % Thalamus
+        bar(T1HistogramsPre.BinSupport, T1HistogramsPre.Thalamus, 'FaceColor', [0.8 0.8 0.8], 'FaceAlpha', 1);
+        bar(T1HistogramsPost.BinSupport, T1HistogramsPost.Thalamus, 'r', 'FaceAlpha', 0.5);
+        text(1750, 0.15, sprintf('EMD = %2.1f', currSubjectPars.EMDthalamus));
+        title('(i). Thalamus');
+        
+    subplot(2,2,2); hold on;
+        % Striatum
+        bar(T1HistogramsPre.BinSupport, T1HistogramsPre.Striatum, 'FaceColor', [0.8 0.8 0.8], 'FaceAlpha', 1);
+        bar(T1HistogramsPost.BinSupport, T1HistogramsPost.Striatum, 'r', 'FaceAlpha', 0.5);        
+        text(1750, 0.15, sprintf('EMD = %2.1f', currSubjectPars.EMDstriatum));
+        title('(ii). Striatum');
+        
+    subplot(2,2,3); hold on;
+        % Primary Somatosensory Cortex
+        bar(T1HistogramsPre.BinSupport, T1HistogramsPre.PrimarySSC, 'FaceColor', [0.8 0.8 0.8], 'FaceAlpha', 1);
+        bar(T1HistogramsPost.BinSupport, T1HistogramsPost.PrimarySSC, 'r', 'FaceAlpha', 0.5);       
+        text(1750, 0.15, sprintf('EMD = %2.1f', currSubjectPars.EMDpssc));
+        title('(iii). Primary SSC');
+        
+    subplot(2,2,4); hold on;
+        % Dentate Gyrus
+        bar(T1HistogramsPre.BinSupport, T1HistogramsPre.DentateGyrus, 'FaceColor', [0.8 0.8 0.8], 'FaceAlpha', 1);
+        bar(T1HistogramsPost.BinSupport, T1HistogramsPost.DentateGyrus, 'r', 'FaceAlpha', 0.5); 
+        text(1750, 0.15, sprintf('EMD = %2.1f', currSubjectPars.EMDdg));
+        title('(iv). Dentate Gyrus');
+    for i = 1:4
+        subplot(2,2,i);
+            set(gca, 'LineWidth', 2, 'FontWeight', 'b', 'FontSize', 10);
+            xlabel('T_1 (msec)'); ylabel('Density');
+            xlim([1500, 3000]); ylim([0, 0.2]);
+            legend('Pre-CA', 'Post-CA', 'Location', 'NorthEast')
+    end
+    
+    % save figure to main Bruker study directory
+    saveas(curr_fig, fullfile(currSubjectPars.PathToStudy, 't1_summary.png'))
+    
+end    
+    
+function T1Histograms = segment_t1_map(input_path)
+% segment the T1 map using DSURQE atlas labels warped to native space
+
+    % load t1 map and labels
+    t1map = load_nii(fullfile(input_path, 't1_map_corrected.nii.gz')).img;
+    labels = round(load_nii(fullfile(input_path, 'labels_inv.nii.gz')).img);    
+
+    % specify bin widths for t1 histograms
+    bin_width = 25;
+    bin_edges = 1500:bin_width:3000;
+    bin_support = (bin_edges(1)+bin_width/2):bin_width:(bin_edges(end)-bin_width/2);
+
+    % set roi labels based on DSURQE atlas
+    thalamus_idx  = [204, 4];
+    striatum_idx = [7, 17];
+    primary_ssc_idx = [111, 280];
+    dentate_gyrus_idx = 326:331;
+
+    % pur roi labels into a cell so we can cycle through them
+    roi_cell{1} = thalamus_idx;
+    roi_cell{2} = striatum_idx;
+    roi_cell{3} = primary_ssc_idx;
+    roi_cell{4} = dentate_gyrus_idx;
+
+    % cycle through rois
+    bin_density_matrix = zeros(length(roi_cell), length(bin_support));
+    for i = 1:length(roi_cell)
+        roi_nums = roi_cell{i};
+        % segment roi within the whole t1 map
+        roi_labels = zeros(size(labels));
+        for j = 1:length(roi_nums)
+            roi_labels = roi_labels + (labels == roi_nums(j));            
+        end
+        % bin the t1 values into predefined histogram support    
+        [bin_density, ~] = histcounts(rmoutliers(t1map(roi_labels > 0)), ...
+                                     bin_edges, ...
+                                     'Normalization', 'probability');    
+        bin_density_matrix(i, :) = bin_density;
+    end
+    
+    
+    T1Histograms.BinSupport = bin_support;
+    T1Histograms.Thalamus = bin_density_matrix(1,:);
+    T1Histograms.Striatum = bin_density_matrix(2,:);
+    T1Histograms.PrimarySSC = bin_density_matrix(3,:);
+    T1Histograms.DentateGyrus = bin_density_matrix(4,:);
+    
+end
+
+
+function SubjectPars = parse_subject_parameters(input_path_pre, cohort_number)
+% gets summary information about the current subject
+    
+    % aggregate identifying subject parameters from Bruker "./subject" file
+    pathparts = strsplit(input_path_pre,filesep);
+    study_path = strcat('/', fullfile(pathparts{1:end-2}));
+
+    % load subject file into string array
+    fid = fopen(fullfile(study_path, 'subject'),'r');
+    subject_file = fread(fid,Inf,'*char');
+    fclose(fid);
+    clear fid;
+
+    % parse subject file indices for subject name
+    index1 = strfind(subject_file','##$SUBJECT_name=(<>, <') + length('##$SUBJECT_name=(<>, <');
+    index2temp = strfind(subject_file', '>');
+    index2 = index2temp(find(index2temp > index1, 1));
+    subject_name = lower(subject_file(index1:index2-1)');
+    clear index1 index2 index2temp;
+
+    % subject ID
+    subject_id = str2double(pathparts{end-2});
+
+    % subject sex
+    index1 = strfind(subject_file','##$SUBJECT_sex=( 8 )') + length('##$SUBJECT_sex=( 8 )') + 2;
+    index2temp = strfind(subject_file', '>');
+    index2 = index2temp(find(index2temp > index1, 1));
+    subject_sex_str = lower(subject_file(index1:index2-1)');
+    if contains(subject_sex_str, 'female')
+        subject_sex = 'F';
+    else
+        subject_sex = 'M';
+    end    
+    clear index1 index2 index2temp;
+
+    % genotype
+    if contains(subject_name, 'ko')
+        genotype = 'KO';
+    elseif contains(subject_name, 'wt')
+        genotype = 'WT';
+    else    
+        genotype = 'WT';
+    end
+
+    % InfectionStatus
+    if contains(subject_name, 'non')
+        infected = false;
+    elseif contains(subject_name, 'control')
+        infected = false;
+    elseif contains(subject_name, 'ptx')
+        infected = false;
+    else
+        infected = true;    
+    end    
+
+    % TimePoint
+    if contains(subject_name, 'day13')
+        timepoint = 1;
+    elseif contains(subject_name, 'day26')
+        timepoint = 2;
+    elseif contains(subject_name, 'control')
+        timepoint = 0;
+    elseif contains(subject_name, 'ptx')
+        timepoint = -1;
+    else    
+        timepoint = 1;
+    end
+    
+    % summarize into a data structure
+    SubjectPars.ID = subject_id;
+    SubjectPars.Sex = subject_sex;
+    SubjectPars.Genotype = genotype;
+    SubjectPars.Infected = infected;
+    SubjectPars.Timepoint = timepoint;
+    SubjectPars.Cohort = cohort_number;
+    SubjectPars.PathToStudy = study_path;
+    
+end
+                
