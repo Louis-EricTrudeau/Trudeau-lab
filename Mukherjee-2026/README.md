@@ -76,6 +76,8 @@ You can install dependencies with:
 
 pip install pandas numpy
 
+```
+
 ---
 
 ## 🧲 MRI Acquisition & Reconstruction
